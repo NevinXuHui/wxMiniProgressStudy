@@ -64,11 +64,11 @@ Page({
       }
     },function(fail){
       console.log("fail:", fail)
-      wx.showToast({
-        title: fail.errMsg,
-        icon: 'none',
-        duration: 3000
-      })
+      // wx.showToast({
+      //   title: fail.errMsg,
+      //   icon: 'none',
+      //   duration: 3000
+      // })
     })
   },
 
@@ -109,10 +109,11 @@ Page({
   bannerClick(event){
     console.log(event)
     var clickItemId=event.currentTarget.dataset.id
-    wx.showToast({
-      title: 'clickItemId=' + clickItemId,
-      icon:'none'
-    })
+    console.log("clickItemId:",clickItemId)
+    // wx.showToast({
+    //   title: 'clickItemId=' + clickItemId,
+    //   icon:'none'
+    // })
   },
   OnOptItemClick(event){
     console.log(event)

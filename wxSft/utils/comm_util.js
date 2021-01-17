@@ -93,12 +93,15 @@ function hex2ArrayBuffer(hex){
  */
 function stringToHex(str) {
   var val = "";
+  console.log("str.length:",str.length)
   for (var i = 0; i < str.length; i++) {
     if (val == "")
       val = str.charCodeAt(i).toString(16);
     else
       val += str.charCodeAt(i).toString(16);
+    console.log("str.charCodeAt(i):",str.charCodeAt(i))  
   }
+  
   return val;
 }
 /**
@@ -127,12 +130,22 @@ function hexCharCodeToStr(hexCharCodeStr) {
 }
 
 function pad(num, n) {
-  var len = num.toString().length;
-  while (len < n) {
-    num = "0" + num;
-    len++;
+  var retData ="";
+  var temp = num;
+  var temp2 = 0;
+  while(n){
+    n--
+    temp2 = temp%10
+    if(temp2<1){
+      temp2 = 0
+    }
+    retData = temp2+retData
+    temp = temp/10
+
+    console.log()
   }
-  return num;
+  console.log("pad.num",retData)
+  return retData;
 }
 
 function strToHexCharCode(str) {
@@ -175,7 +188,7 @@ function stringToByteArray(str) {
 /**
  * byte数组转string
  */
-function byteToString(bytearr) {
+function byteToString(arr) {
   if (typeof arr === 'string') {
     return arr;
   }

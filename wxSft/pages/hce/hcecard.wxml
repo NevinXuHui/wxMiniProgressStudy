@@ -8,4 +8,7 @@
       <text style='width:100%;height:100%;word-break:break-all;'>{{content}}</text>
     </scroll-view>
   </view>
+  <view class='viewclean'>
+    <button class='btnclean' bindtap='btnclean'>清除数据</button>
+    </view>
 </view>

@@ -69,6 +69,8 @@ class NfcHCECore{
     for (var i = 0; i < dataView.byteLength; i++) {
       dataView.setInt8(i, byteArrays[i])
     }
+    console.log("retbuffer:",retbuffer)
+
     wx.sendHCEMessage({
       data: retbuffer,
       success:function(res){

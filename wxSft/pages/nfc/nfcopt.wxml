@@ -5,8 +5,6 @@
     <button class='stop-search' bindtap='stopHCEOpt'>停止</button>
   </view>
 
-  
-
   <view class='content'>
     <text class='text-content'>{{content}}</text>
   </view>

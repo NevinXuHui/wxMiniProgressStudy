@@ -36,14 +36,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log("onLoad")
     var cardKey = options.cardkey
+    console.log("cardKey:",cardKey)
     var cardbean=wx.getStorageSync(cardKey)
     console.log('cardbean=' ,cardbean)
     this.setData({
       currentCard: cardbean
     })
     wx.setNavigationBarTitle({
-      title: "门禁卡："+cardbean.cardName,
+      title: "路由器NFC信息："+cardbean.cardUser,
     })
     this.nfcHCECore = new NfcHCECore(this, [cardbean.AID], this.onOptMessageCallBack.bind(this), this.onHCEMessageCallBack.bind(this))
     console.log("-->initNFCHCE")
@@ -86,6 +88,10 @@ Page({
         content: msg
       })
       this.sendDataPackage()
+      wx.vibrateShort({
+        type:"medium"
+      }
+      )
     }
     this.resetTime()
   },
@@ -98,47 +104,54 @@ Page({
     //组装TLV数据包
     var header = '00A40400'
 
-    var hexCardName = comm.stringToHex('yanglika')
-    hexCardName = plusZero(hexCardName)
-    console.log('补零：' + hexCardName)
-    console.log('cardName=>', cardbean.cardName,';hexCardName=>' + hexCardName)
-    console.log('还原xCardName:',comm.hexToString(hexCardName))
-    var nameTag = '1F01'
-    var len = comm.stringToHex(comm.pad((hexCardName.length / 2), 2))
-    var cmdname = nameTag + len + hexCardName
-    console.log('cmdname.TVL=>' + cmdname)
+    var hexCardUser = comm.stringToHex('test')
+    hexCardUser = plusZero(hexCardUser)
+    console.log('补零：' + hexCardUser)
+    console.log('cardUser=>', cardbean.cardUser,';hexCardUser=>' + hexCardUser)
+    console.log('还原xCardUser:',comm.hexToString(hexCardUser))
+    var userTag = '1F01'
+    console.log("cardUser.length:",hexCardUser.length)
+    var len = comm.stringToHex(comm.pad((hexCardUser.length / 2), 2))
+    console.log("hexCacardName.len",len)
+    var cmduser = userTag + len + hexCardUser
+    console.log('cmduser.TVL=>' + cmduser)
 
-    var hexCardNo = comm.stringToHex(cardbean.cardNo)
-    hexCardNo = plusZero(hexCardNo)
-    console.log('cardNo=>', cardbean.cardNo,';hexCardNo=>' + hexCardNo)
-    console.log('还原xCardNo:', comm.hexToString(hexCardNo))
-    var noTag = '5F01'
-    len = comm.stringToHex(comm.pad((hexCardNo.length / 2), 2))
-    var cmdNo = noTag + len + hexCardNo
-    console.log('cmdNo.TVL=>' + cmdNo)
+    var hexCardWiFiName = comm.stringToHex(cardbean.cardWiFiName)
+    hexCardWiFiName = plusZero(hexCardWiFiName)
+    console.log('hexCardWiFiName=>', cardbean.cardWiFiName,';hexCardWiFiName=>' + hexCardWiFiName)
+    console.log('还原xCardWiFiName:', comm.hexToString(hexCardWiFiName))
+    var CardWiFiNameTag = '5F01'
+    console.log("hexCardWiFiName.length:",hexCardWiFiName.length)
+    len = comm.stringToHex(comm.pad((hexCardWiFiName.length / 2), 2))
+    console.log("hexCardWiFiName.len",len)
+    var cmdWiFiName = CardWiFiNameTag + len + hexCardWiFiName
+    console.log('cmdNo.TVL=>' + cmdWiFiName)
 
     var hexCreateDate = comm.stringToHex(cardbean.createDate)
     hexCreateDate = plusZero(hexCreateDate)
     console.log('hexCreateDate=>' + hexCreateDate)
     var createDateTag = '5F02'
     len = comm.stringToHex(comm.pad((hexCreateDate.length / 2), 2))
+    console.log("hexCreateDate.len",len)
     var cmdDate = createDateTag + len + hexCreateDate
     console.log('cmdDate.TVL=>' + cmdDate)
 
-    var hexCardExp = comm.stringToHex(cardbean.cardExp)
-    hexCardExp = plusZero(hexCardExp)
-    console.log('hexCardExp=>' + hexCardExp)
-    var hexCardExpTag = '9F01'
-    len = comm.stringToHex(comm.pad((hexCardExp.length / 2), 2))
-    var cmdExp = hexCardExpTag + len + hexCardExp
-    console.log('cmdExp.TVL=>' + cmdExp)
+    var hexCardWiFiPassword = comm.stringToHex(cardbean.cardWiFiPassword)
+    hexCardWiFiPassword = plusZero(hexCardWiFiPassword)
+    console.log('hexCardWiFiPassword=>' + hexCardWiFiPassword)
+    var hexCardWiFiPasswordTag = '9F01'
+    console.log("hexCardWiFiPassword.length:",hexCardWiFiPassword.length)
+    len = comm.stringToHex(comm.pad((hexCardWiFiPassword.length / 2), 2))
+    console.log("hexCardWiFiPassword.len",len)
+    var cmdCardWiFiPassword = hexCardWiFiPasswordTag + len + hexCardWiFiPassword
+    console.log('cmdExp.TVL=>' + cmdCardWiFiPassword)
     
 
-    len = comm.stringToHex(((cmdname.length + cmdNo.length + cmdDate.length + cmdExp.length)/2).toString())
+    len = comm.stringToHex(((cmduser.length + cmdWiFiName.length + cmdDate.length + cmdCardWiFiPassword.length)/2).toString())
     
     console.log('len='+len)
     var status="9000"
-    var sendcmd = (header + len + cmdname + cmdNo + cmdDate + cmdExp + status).toUpperCase()
+    var sendcmd = (header + len + cmduser + cmdWiFiName + cmdDate + cmdCardWiFiPassword + status).toUpperCase()
     msg = msg + "卡片返回读卡器指令：" + sendcmd+ '\n'
     this.setData({
       content: msg
@@ -151,7 +164,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+    console.log("onReady")
   },
 
   /**
@@ -159,13 +172,14 @@ Page({
    */
   onShow: function () {
     this.resetTime()
+    console.log("onShow")
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+    console.log("onHide")
   },
 
   /**
@@ -173,7 +187,9 @@ Page({
    */
   onUnload: function () {
     this.resetTime()
+    console.log("stopHCE")
     _stopHCE()
+    console.log("onUnload")
   },
 
   /**
@@ -195,14 +211,28 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+
+  btnclean:function(event){
+    msg = ""
+    this.setData({
+      content: ""
+    })
   }
+  
+
 })
+
+
 
 /**
  * 仅在安卓系统下有效。
  */
 function _stopHCE() {
   console.log("-->stopHCE")
+
+  wx.offHCEMessage()
+
   wx.stopHCE({
     success: function (res) {
       console.log(res)

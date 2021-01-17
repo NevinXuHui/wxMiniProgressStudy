@@ -1,12 +1,11 @@
 {
   "pages": [
-    "pages/login/login",
+    "pages/smartcard/smartcard",
     "pages/home/home",
     "pages/index/index",
     "pages/user/user",
     "pages/bluetooth/bluetooth",
     "pages/nfc/nfcopt",
-    "pages/smartcard/smartcard",
     "pages/wifi/wifi",
     "pages/web/html",
     "pages/hce/hcecard"
@@ -46,5 +45,6 @@
     "connectSocket": 20000,
     "uploadFile": 20000,
     "downloadFile": 20000
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
