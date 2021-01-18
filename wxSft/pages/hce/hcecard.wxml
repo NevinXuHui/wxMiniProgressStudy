@@ -1,11 +1,11 @@
 <!--pages/hce/hcecard.wxml-->
 <view class='_root'>
-  请使用NFC读卡器进行读取({{last_time}}s)
+  已获取路由器信息，请拿手机与设备碰一碰({{last_time}}s)
   <view class='viewcarditem'>
-    <view>{{currentCard.cardName}}</view>
-    <view>{{currentCard.cardNo}}</view>
+    <view>路由器设备名称：{{currentCard.cardWiFiName}}</view>
+    <view>路由器设备密码：{{currentCard.cardWiFiPassword}}</view>
     <scroll-view scroll-y style='width:100%;height:800rpx;'>
-      <text style='width:100%;height:100%;word-break:break-all;'>{{content}}</text>
+      <text style='width:100%;height:100%;font-size:20pt;word-break:break-all;'>{{content}}</text>
     </scroll-view>
   </view>
   <view class='viewclean'>

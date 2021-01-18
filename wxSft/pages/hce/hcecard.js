@@ -45,7 +45,7 @@ Page({
       currentCard: cardbean
     })
     wx.setNavigationBarTitle({
-      title: "路由器NFC信息：WiFi名称-"+cardbean.cardWiFiName,
+      title: "碰一碰"        //信息：WiFi名称-"+cardbean.cardWiFiName,
     })
     this.nfcHCECore = new NfcHCECore(this, [cardbean.AID], this.onOptMessageCallBack.bind(this), this.onHCEMessageCallBack.bind(this))
     console.log("-->initNFCHCE")
@@ -83,7 +83,9 @@ Page({
     console.log('onHCEMessageCallBack')
     console.log("有读卡器读我,messageType=", messageType)
     if (messageType == 1) {
-      msg = msg + "有读卡器读我,数据包:" + hexData + '\n'
+
+      msg = msg+"手机检测到终端设备获取请求\n"
+     // msg = msg + "有读卡器读我,数据包:" + hexData + '\n'
       that.setData({
         content: msg
       })
@@ -152,7 +154,9 @@ Page({
     console.log('len='+len)
     var status="9000"
     var sendcmd = (header + len + cmduser + cmdWiFiName + cmdDate + cmdCardWiFiPassword + status).toUpperCase()
-    msg = msg + "卡片返回读卡器指令：" + sendcmd+ '\n'
+
+    msg = msg+"完成数据交互,请等待子设备连接到当前路由器   \n"
+    // msg = msg + "卡片返回读卡器指令：" + sendcmd+ '\n'
     this.setData({
       content: msg
     })
@@ -189,9 +193,9 @@ Page({
     this.resetTime()
     console.log("stopHCE")
     _stopHCE()
-    setTimeout(function() {
-      console.log('我是xx')
-    }, 1000);
+    // setTimeout(function() {
+    //   console.log('我是xx')
+    // }, 1000);
     console.log("onUnload")
   },
 
