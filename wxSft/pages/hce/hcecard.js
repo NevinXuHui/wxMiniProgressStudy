@@ -45,7 +45,7 @@ Page({
       currentCard: cardbean
     })
     wx.setNavigationBarTitle({
-      title: "路由器NFC信息："+cardbean.cardUser,
+      title: "路由器NFC信息：WiFi名称-"+cardbean.cardWiFiName,
     })
     this.nfcHCECore = new NfcHCECore(this, [cardbean.AID], this.onOptMessageCallBack.bind(this), this.onHCEMessageCallBack.bind(this))
     console.log("-->initNFCHCE")
@@ -189,6 +189,9 @@ Page({
     this.resetTime()
     console.log("stopHCE")
     _stopHCE()
+    setTimeout(function() {
+      console.log('我是xx')
+    }, 1000);
     console.log("onUnload")
   },
 
@@ -218,6 +221,8 @@ Page({
     this.setData({
       content: ""
     })
+    this.nfcHCECore.stopNfcHCE()
+  //  _stopHCE()
   }
   
 
@@ -231,6 +236,15 @@ Page({
 function _stopHCE() {
   console.log("-->stopHCE")
 
+  wx.getHCEState({
+    success (res) {
+      console.log(res.errCode)
+    },
+    fail (res) {
+      console.log(res.errCode)
+    },
+  })
+  
   wx.offHCEMessage()
 
   wx.stopHCE({

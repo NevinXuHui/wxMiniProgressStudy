@@ -37,9 +37,9 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.14.3",
+  "libVersion": "2.14.4",
   "appid": "wx82f6575b403a7c7e",
-  "projectname": "%E9%A6%96%E4%BB%98%E9%80%9A",
+  "projectname": "NFCTest",
   "isGameTourist": false,
   "condition": {
     "search": {
